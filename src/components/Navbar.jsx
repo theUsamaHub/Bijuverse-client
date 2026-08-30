@@ -59,6 +59,129 @@ const MoonIcon = () => (
   </svg>
 );
 
+/* ─── Anime Menu Icons ──────────────────────────────────────────────
+   Three interchangeable icon variants for the mobile menu button.
+   Only Sharingan is active; Rasengan and Chidori are commented out
+   below so they can be swapped in later if desired.
+
+   To swap: replace <SharinganIcon /> with <RasenganIcon /> or
+   <ChidoriIcon /> in the burger button JSX, and uncomment the
+   corresponding CSS block in Navbar.css.
+   ─────────────────────────────────────────────────────────────────── */
+
+/**
+ * SharinganIcon — three tomoe (Uchiha eye motif) arranged in a circle.
+ * - Outer ring: the eye border
+ * - 3 tomoe: comma-shaped marks at 120° intervals, GSAP-rotated on open
+ * - Center dot: the pupil, glows gold on active state
+ *
+ * Active state: tomoe spin 360° via GSAP (see handleBurgerClick).
+ * Idle state: subtle gold drop-shadow on the outer ring.
+ */
+const SharinganIcon = () => (
+  <svg
+    className="bv-sharingan"
+    viewBox="0 0 40 40"
+    width="28"
+    height="28"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Outer ring — eye border */}
+    <circle
+      cx="20"
+      cy="20"
+      r="17"
+      stroke="var(--accent-gold)"
+      strokeWidth="2"
+      className="bv-sharingan-ring"
+    />
+
+    {/* Tomoe 1 — top (0°) */}
+    <g className="bv-tomoe" data-index="0">
+      <path
+        d="M20 9c1.5 0 2.8 1.2 2.8 2.8 0 2-1.3 3.5-2.8 4.2-1.5-.7-2.8-2.2-2.8-4.2C17.2 10.2 18.5 9 20 9z"
+        fill="var(--accent-gold)"
+      />
+      {/* Tomoe tail — small curved flick */}
+      <path
+        d="M22.8 11.8c1.2.3 2.2 1.2 2.2 2.5"
+        stroke="var(--accent-gold)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </g>
+
+    {/* Tomoe 2 — bottom-right (120°) */}
+    <g className="bv-tomoe" data-index="1" transform="rotate(120 20 20)">
+      <path
+        d="M20 9c1.5 0 2.8 1.2 2.8 2.8 0 2-1.3 3.5-2.8 4.2-1.5-.7-2.8-2.2-2.8-4.2C17.2 10.2 18.5 9 20 9z"
+        fill="var(--accent-gold)"
+      />
+      <path
+        d="M22.8 11.8c1.2.3 2.2 1.2 2.2 2.5"
+        stroke="var(--accent-gold)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </g>
+
+    {/* Tomoe 3 — bottom-left (240°) */}
+    <g className="bv-tomoe" data-index="2" transform="rotate(240 20 20)">
+      <path
+        d="M20 9c1.5 0 2.8 1.2 2.8 2.8 0 2-1.3 3.5-2.8 4.2-1.5-.7-2.8-2.2-2.8-4.2C17.2 10.2 18.5 9 20 9z"
+        fill="var(--accent-gold)"
+      />
+      <path
+        d="M22.8 11.8c1.2.3 2.2 1.2 2.2 2.5"
+        stroke="var(--accent-gold)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </g>
+
+    {/* Center dot — pupil */}
+    <circle cx="20" cy="20" r="2.5" fill="var(--accent-gold)" className="bv-sharingan-pupil" />
+  </svg>
+);
+
+/* ─── RASENGAN ICON (inactive — Sharingan chosen) ────────────────
+   Swirling energy orb with three concentric spiral arms.
+   To activate: uncomment, swap <SharinganIcon /> with <RasenganIcon />
+   in the burger button.
+   ───────────────────────────────────────────────────────────────────
+const RasenganIcon = () => (
+  <svg className="bv-rasengan" viewBox="0 0 40 40" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="rasengan-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stopColor="var(--accent-gold)" stopOpacity="0.9" />
+        <stop offset="70%" stopColor="var(--accent-orange)" stopOpacity="0.4" />
+        <stop offset="100%" stopColor="var(--accent-orange)" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="20" cy="20" r="18" fill="url(#rasengan-glow)" opacity="0.3" />
+    <path d="M20 6 A14 14 0 0 1 34 20" stroke="var(--accent-gold)" strokeWidth="2" strokeLinecap="round" className="bv-rasengan-arm" />
+    <path d="M34 20 A14 14 0 0 1 20 34" stroke="var(--accent-orange)" strokeWidth="2" strokeLinecap="round" className="bv-rasengan-arm" />
+    <path d="M20 34 A14 14 0 0 1 6 20" stroke="var(--accent-gold)" strokeWidth="2" strokeLinecap="round" className="bv-rasengan-arm" />
+    <circle cx="20" cy="20" r="4" fill="var(--accent-gold)" opacity="0.8" />
+  </svg>
+);
+─────────────────────────────────────────────────────────────────── */
+
+/* ─── CHIDORI ICON (inactive — Sharingan chosen) ─────────────────
+   Three jagged lightning bolt lines — one per burger bar.
+   To activate: uncomment, swap <SharinganIcon /> with <ChidoriIcon />
+   in the burger button.
+   ───────────────────────────────────────────────────────────────────
+const ChidoriIcon = () => (
+  <svg className="bv-chidori" viewBox="0 0 28 28" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 6 L10 6 L8 12 L14 12" stroke="var(--accent-gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="bv-chidori-bolt" />
+    <path d="M4 14 L10 14 L8 20 L14 20" stroke="var(--accent-yellow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="bv-chidori-bolt" />
+    <path d="M4 22 L10 22 L8 28 L14 28" stroke="var(--accent-gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="bv-chidori-bolt" />
+  </svg>
+);
+─────────────────────────────────────────────────────────────────── */
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState('dark');
@@ -188,9 +311,8 @@ export default function Navbar() {
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
           >
-            <span />
-            <span />
-            <span />
+            {/* Icon swap: change to <RasenganIcon /> or <ChidoriIcon /> */}
+            <SharinganIcon />
           </button>
         </div>
       </nav>

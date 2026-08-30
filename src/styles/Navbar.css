@@ -127,34 +127,94 @@
   height: 18px;
 }
 
-/* ---------- Burger (hidden on desktop) ---------- */
+/* ---------- Burger / Anime Icon (hidden on desktop) ---------- */
 .bv-burger {
   display: none;
-  flex-direction: column;
-  gap: 5px;
-  width: 26px;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   background: none;
   border: none;
-  padding: 4px 0;
+  padding: 0;
+  border-radius: 50%;
+  transition: background 0.25s var(--ease-chakra);
 }
 
-.bv-burger span {
-  height: 2px;
-  width: 100%;
-  background: var(--text-primary);
-  border-radius: 2px;
-  transition: transform 0.3s var(--ease-chakra), opacity 0.25s;
+.bv-burger:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.bv-burger[aria-expanded='true'] span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+[data-theme='light'] .bv-burger:hover {
+  background: rgba(0, 0, 0, 0.06);
 }
-.bv-burger[aria-expanded='true'] span:nth-child(2) {
-  opacity: 0;
+
+.bv-burger:active {
+  transform: scale(0.92);
 }
-.bv-burger[aria-expanded='true'] span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+
+/* ─── Sharingan icon ──────────────────────────────────────────────── */
+.bv-sharingan {
+  display: block;
+  transition: filter 0.3s var(--ease-chakra);
+}
+
+.bv-sharingan-ring {
+  filter: drop-shadow(0 0 4px var(--accent-gold));
+  transition: filter 0.3s var(--ease-chakra);
+}
+
+.bv-burger:hover .bv-sharingan-ring {
+  filter: drop-shadow(0 0 8px var(--accent-gold)) drop-shadow(0 0 2px var(--accent-orange));
+}
+
+.bv-sharingan-pupil {
+  filter: drop-shadow(0 0 3px var(--accent-gold));
+}
+
+/* ─── RASENGAN icon ───────────────────────────────────────────────── */
+.bv-rasengan {
+  display: block;
+}
+
+.bv-rasengan-arm {
+  filter: drop-shadow(0 0 3px var(--accent-gold));
+}
+
+.bv-burger[aria-expanded='true'] .bv-rasengan {
+  animation: rasengan-spin 0.8s linear infinite;
+}
+
+@keyframes rasengan-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── CHIDORI icon ────────────────────────────────────────────────── */
+.bv-chidori {
+  display: block;
+}
+
+.bv-chidori-bolt {
+  filter: drop-shadow(0 0 2px var(--accent-gold));
+}
+
+.bv-burger[aria-expanded='true'] .bv-chidori-bolt {
+  animation: chidori-crackle 0.15s ease-in-out infinite alternate;
+}
+
+.bv-burger[aria-expanded='true'] .bv-chidori-bolt:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.bv-burger[aria-expanded='true'] .bv-chidori-bolt:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+@keyframes chidori-crackle {
+  from { opacity: 0.7; transform: translateX(-0.5px); }
+  to   { opacity: 1;   transform: translateX(0.5px); }
 }
 
 /* ---------- Mobile panel (full-viewport drop-down) ---------- */

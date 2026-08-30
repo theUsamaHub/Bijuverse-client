@@ -78,4 +78,12 @@
   --text-primary: var(--void-0);
   --text-secondary: var(--void-400);
   --text-muted: var(--void-600);
+
+  /* Accent overrides — darker golds so they read on cream/light backgrounds.
+     Dark theme keeps the bright #FFD60A / #FFEA00; light theme pulls from
+     deeper in the gold scale for WCAG-friendly contrast. */
+  --accent-gold:   var(--gold-700);   /* #b38200 — dark gold on cream */
+  --accent-yellow: var(--gold-600);   /* #d9a600 */
+  /* --accent-orange stays at #FF3D00 — already has enough contrast */
+  --accent-glow-gradient: linear-gradient(90deg, var(--gold-600) 0%, var(--gold-700) 45%, var(--orange-500) 100%);
 }

@@ -8,7 +8,7 @@ const LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'My Work', href: '#projects' },
   { label: 'Projects', href: '#reviews' },
-  { label: 'Contactus', href: '#contact' },
+  { label: 'Contact me', href: '#contact' },
 ];
 
 // Inline SVGs so the navbar has zero icon-library dependency beyond gsap.
@@ -105,10 +105,11 @@ export default function Navbar() {
     gsap.to(el, { scaleX: 0, duration: 0.3, ease: 'power2.in' });
   };
 
-  // Mobile panel open/close — the one motion that answers a user action
+  // Mobile panel open/close + body scroll lock
   useEffect(() => {
     if (!mobilePanelRef.current) return;
     if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
       gsap.set(mobilePanelRef.current, { pointerEvents: 'auto' });
       gsap.to(mobilePanelRef.current, { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' });
       gsap.fromTo(
@@ -117,6 +118,7 @@ export default function Navbar() {
         { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, delay: 0.1, ease: 'power2.out' }
       );
     } else {
+      document.body.style.overflow = '';
       gsap.to(mobilePanelRef.current, {
         opacity: 0,
         y: -12,
@@ -125,6 +127,7 @@ export default function Navbar() {
         onComplete: () => gsap.set(mobilePanelRef.current, { pointerEvents: 'none' }),
       });
     }
+    return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
   return (
@@ -204,12 +207,22 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
-        <div className="bv-socials" style={{ marginTop: 12 }}>
-          {SOCIALS.map((s) => (
-            <a key={s.name} href={s.href} target="_blank" rel="noreferrer" className="bv-social-icon" aria-label={s.name}>
-              {s.svg}
-            </a>
-          ))}
+        <div className="bv-mobile-actions">
+          <button
+            type="button"
+            className="bv-theme-toggle"
+            aria-label="Toggle dark / light mode"
+            onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          >
+            {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+          </button>
+          <div className="bv-socials">
+            {SOCIALS.map((s) => (
+              <a key={s.name} href={s.href} target="_blank" rel="noreferrer" className="bv-social-icon" aria-label={s.name}>
+                {s.svg}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </>

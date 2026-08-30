@@ -1,0 +1,179 @@
+.bv-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+  padding: 0 clamp(20px, 5vw, 64px);
+  background: var(--bg-surface);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color 0.4s var(--ease-chakra), background 0.4s var(--ease-chakra);
+}
+
+/* signature moment: a chakra-gradient hairline fades in only once the page
+   has scrolled, so the effect reads as a state change rather than decoration */
+.bv-navbar[data-scrolled='true'] {
+  border-bottom: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--bg-surface), var(--bg-surface)),
+    var(--accent-glow-gradient);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* ---------- Logo ---------- */
+.bv-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  background: linear-gradient(90deg, var(--gold-300), var(--accent-gold), var(--accent-orange), var(--gold-300));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ---------- Links ---------- */
+.bv-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bv-link {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 2px;
+  cursor: pointer;
+  transition: color 0.25s var(--ease-chakra);
+}
+
+.bv-link:hover,
+.bv-link[data-active='true'] {
+  color: var(--text-primary);
+}
+
+/* underline element — animated by GSAP (scaleX), not CSS transition,
+   so it can be sequenced with the glow timing precisely */
+.bv-link-underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--accent-glow-gradient);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  filter: drop-shadow(0 0 6px var(--accent-gold));
+}
+
+/* ---------- Right cluster: socials + theme toggle ---------- */
+.bv-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.bv-socials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bv-social-icon {
+  display: inline-flex;
+  color: var(--text-secondary);
+  transition: color 0.25s var(--ease-chakra), filter 0.25s var(--ease-chakra);
+  cursor: pointer;
+}
+
+.bv-social-icon:hover {
+  color: var(--text-primary);
+  filter: drop-shadow(0 0 6px var(--accent-gold));
+}
+
+.bv-theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.bv-theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- Mobile ---------- */
+.bv-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 26px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.bv-burger span {
+  height: 2px;
+  width: 100%;
+  background: var(--text-primary);
+  border-radius: 2px;
+}
+
+.bv-mobile-panel {
+  position: fixed;
+  top: 76px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-surface-solid);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 32px;
+  gap: 28px;
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bv-mobile-panel .bv-link {
+  font-size: 1.4rem;
+  color: var(--text-primary);
+}
+
+@media (max-width: 860px) {
+  .bv-links,
+  .bv-right .bv-socials {
+    display: none;
+  }
+  .bv-burger {
+    display: flex;
+  }
+}

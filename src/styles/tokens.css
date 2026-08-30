@@ -1,0 +1,81 @@
+/* ==========================================================================
+   THE BIJUVERSE — Design Tokens
+   "Electric Chakra Mode" palette, expanded into full scales + semantic roles.
+   Import this once (e.g. in your global CSS or index.css).
+   ========================================================================== */
+
+:root {
+  /* ---- Chakra Gold scale (yellow/gold hue) ---- */
+  --gold-50:  #fffbea;
+  --gold-100: #fff3b0;
+  --gold-200: #ffea6b;
+  --gold-300: #ffea00; /* brand base — FFEA00 */
+  --gold-400: #ffd60a; /* brand base — FFD60A */
+  --gold-500: #f2c200;
+  --gold-600: #d9a600;
+  --gold-700: #b38200;
+  --gold-800: #8c6400;
+  --gold-900: #664700;
+
+  /* ---- Chakra Orange scale ---- */
+  --orange-50:  #fff1eb;
+  --orange-100: #ffd2c0;
+  --orange-200: #ffa680;
+  --orange-300: #ff6b3d;
+  --orange-400: #ff3d00; /* brand base — FF3D00 */
+  --orange-500: #e63600;
+  --orange-600: #c22d00;
+  --orange-700: #992400;
+  --orange-800: #701a00;
+  --orange-900: #4d1200;
+
+  /* ---- Neutral / Void scale (anchored on brand black + #1A1A1A) ---- */
+  --void-0:    #000000; /* brand base — 000000 */
+  --void-50:   #0d0d0d;
+  --void-100:  #1a1a1a; /* brand base — 1A1A1A */
+  --void-200:  #262626;
+  --void-300:  #333333;
+  --void-400:  #4d4d4d;
+  --void-500:  #6b6b6b;
+  --void-600:  #8c8c8c;
+  --void-700:  #adadad;
+  --void-800:  #cfcfcf;
+  --void-900:  #e8e8e8;
+  --void-1000: #ffffff;
+
+  /* ---- Brand accents (constant across themes) ---- */
+  --accent-gold:   var(--gold-400);
+  --accent-yellow: var(--gold-300);
+  --accent-orange: var(--orange-400);
+  --accent-glow-gradient: linear-gradient(90deg, var(--gold-300) 0%, var(--gold-400) 45%, var(--orange-400) 100%);
+
+  /* ---- Typography ---- */
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+
+  /* ---- Motion ---- */
+  --ease-chakra: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- Dark theme (default) ---- */
+:root,
+[data-theme='dark'] {
+  --bg-primary: var(--void-0);
+  --bg-surface: rgba(26, 26, 26, 0.55);      /* glass panel base */
+  --bg-surface-solid: var(--void-100);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --text-primary: var(--void-1000);
+  --text-secondary: var(--void-700);
+  --text-muted: var(--void-500);
+}
+
+/* ---- Light theme ---- */
+[data-theme='light'] {
+  --bg-primary: #f7f5f0;
+  --bg-surface: rgba(247, 245, 240, 0.6);    /* glass panel base */
+  --bg-surface-solid: var(--void-1000);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --text-primary: var(--void-0);
+  --text-secondary: var(--void-400);
+  --text-muted: var(--void-600);
+}

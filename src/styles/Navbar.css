@@ -11,7 +11,18 @@
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-bottom: 1px solid var(--border-subtle);
+  box-shadow:
+    0 1px 0 0 rgba(255, 214, 10, 0.08),
+    0 4px 24px -4px rgba(0, 0, 0, 0.5),
+    0 8px 40px -8px rgba(0, 0, 0, 0.3);
   transition: border-color 0.4s var(--ease-chakra), background 0.4s var(--ease-chakra);
+}
+
+[data-theme='light'] .bv-navbar {
+  box-shadow:
+    0 1px 0 0 rgba(179, 130, 0, 0.1),
+    0 4px 24px -4px rgba(0, 0, 0, 0.15),
+    0 8px 40px -8px rgba(0, 0, 0, 0.1);
 }
 
 /* signature moment: a chakra-gradient hairline fades in only once the page

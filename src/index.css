@@ -1,7 +1,19 @@
 @import './src/styles/tokens.css';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
+  overflow-x: hidden;
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
+}
+
+html {
+  overflow-x: hidden;
 }

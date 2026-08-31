@@ -6,14 +6,16 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  scroll-padding-top: 108px;
+}
+
 body {
   margin: 0;
+  padding-top: 108px;
   overflow-x: hidden;
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
-}
-
-html {
-  overflow-x: hidden;
 }

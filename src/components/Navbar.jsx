@@ -191,6 +191,8 @@ export default function Navbar() {
   const underlineRefs = useRef({});
   const mobilePanelRef = useRef(null);
   const mobileLinkRefs = useRef([]);
+  const tomoeRefs = useRef([]);
+  const burgerRef = useRef(null);
 
   // Scroll state -> reveals the chakra hairline border (single, deliberate change)
   useEffect(() => {
@@ -216,6 +218,12 @@ export default function Navbar() {
     });
   }, []);
 
+  // Collect tomoe refs from the Sharingan SVG for GSAP rotation
+  useEffect(() => {
+    if (!burgerRef.current) return;
+    tomoeRefs.current = Array.from(burgerRef.current.querySelectorAll('.bv-tomoe'));
+  }, []);
+
   const handleLinkEnter = (key) => {
     const el = underlineRefs.current[key];
     if (!el) return;
@@ -228,7 +236,7 @@ export default function Navbar() {
     gsap.to(el, { scaleX: 0, duration: 0.3, ease: 'power2.in' });
   };
 
-  // Mobile panel open/close + body scroll lock
+  // Mobile panel open/close + body scroll lock + Sharingan tomoe spin
   useEffect(() => {
     if (!mobilePanelRef.current) return;
     if (mobileOpen) {
@@ -240,6 +248,14 @@ export default function Navbar() {
         { opacity: 0, y: 12 },
         { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, delay: 0.1, ease: 'power2.out' }
       );
+      // Sharingan: spin all tomoe 360° on open
+      gsap.to(tomoeRefs.current, {
+        rotation: '+=360',
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power2.out',
+        transformOrigin: '20px 20px',
+      });
     } else {
       document.body.style.overflow = '';
       gsap.to(mobilePanelRef.current, {
@@ -248,6 +264,14 @@ export default function Navbar() {
         duration: 0.25,
         ease: 'power2.in',
         onComplete: () => gsap.set(mobilePanelRef.current, { pointerEvents: 'none' }),
+      });
+      // Sharingan: reverse spin tomoe on close
+      gsap.to(tomoeRefs.current, {
+        rotation: '-=360',
+        duration: 0.5,
+        stagger: 0.06,
+        ease: 'power2.in',
+        transformOrigin: '20px 20px',
       });
     }
     return () => { document.body.style.overflow = ''; };
@@ -310,8 +334,8 @@ export default function Navbar() {
             aria-label="Open menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
+            ref={burgerRef}
           >
-            {/* Icon swap: change to <RasenganIcon /> or <ChidoriIcon /> */}
             <SharinganIcon />
           </button>
         </div>

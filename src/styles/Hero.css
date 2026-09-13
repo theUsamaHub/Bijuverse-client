@@ -381,27 +381,49 @@
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--text-primary);
+  color: var(--void-0);
   text-decoration: none;
   padding: 14px 32px;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
-  background: var(--bg-surface);
+  background: var(--void-1000);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   cursor: pointer;
   transition:
     border-color 0.3s var(--ease-chakra),
     box-shadow 0.3s var(--ease-chakra),
-    transform 0.25s var(--ease-chakra);
+    transform 0.25s var(--ease-chakra),
+    background 0.3s var(--ease-chakra),
+    color 0.3s var(--ease-chakra);
+}
+
+[data-theme='light'] .bv-hero-cta {
+  background: var(--void-100);
+  color: var(--void-1000);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='light'] .bv-hero-cta:hover {
+  border-color: var(--accent-gold);
+  box-shadow:
+    0 0 16px rgba(179, 130, 0, 0.25),
+    0 0 32px rgba(179, 130, 0, 0.1);
 }
 
 .bv-hero-cta:hover {
   border-color: var(--accent-gold);
   box-shadow:
-    0 0 16px rgba(255, 214, 10, 0.25),
-    0 0 32px rgba(255, 214, 10, 0.1);
+    0 0 20px rgba(255, 214, 10, 0.3),
+    0 0 40px rgba(255, 214, 10, 0.12);
   transform: translateY(-2px);
+}
+
+[data-theme='light'] .bv-hero-cta:hover {
+  border-color: var(--accent-gold);
+  box-shadow:
+    0 0 20px rgba(179, 130, 0, 0.3),
+    0 0 40px rgba(179, 130, 0, 0.12);
 }
 
 .bv-hero-cta:active {

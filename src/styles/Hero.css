@@ -1,0 +1,547 @@
+/* ==========================================================================
+   HERO SECTION — "Electric Chakra Mode"
+   Full-viewport hero with chakra loading screen, particles,
+   staggered text reveal, and ScrollTrigger parallax.
+   ========================================================================== */
+
+/* ─── Loading Screen ────────────────────────────────────────────────
+   Fullscreen overlay that shows on first visit/reload.
+   Chakra ring expands from a dot, particles burst outward,
+   then the overlay fades to reveal the hero.
+   ─────────────────────────────────────────────────────────────────── */
+.bv-hero-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--bg-primary);
+  animation: loader-fade-out 0.5s ease-in 1.2s forwards;
+}
+
+/* Loader ring — expands from dot */
+.bv-loader-ring {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: loader-ring-expand 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+             loader-ring-glow 0.4s ease-out 0.6s;
+  box-shadow: 0 0 40px rgba(255, 214, 10, 0.3);
+}
+
+/* Inner glow pulse on the loader ring */
+.bv-loader-ring-glow {
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 214, 10, 0.4);
+  animation: loader-pulse 0.8s ease-in-out infinite;
+}
+
+/* Loader text — fades in after ring expands */
+.bv-loader-text {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  margin-top: 24px;
+  opacity: 0;
+  animation: loader-text-in 0.4s ease-out 0.5s forwards;
+}
+
+/* ─── Loader Particles ─────────────────────────────────────────── */
+.bv-loader-particles {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.bv-loader-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  box-shadow: 0 0 8px rgba(255, 214, 10, 0.6);
+  animation: loader-particle-burst 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+  opacity: 0;
+}
+
+.bv-loader-particle--orange {
+  background: var(--accent-orange);
+  box-shadow: 0 0 8px rgba(255, 61, 0, 0.6);
+}
+
+/* ─── Loader Keyframes ─────────────────────────────────────────── */
+@keyframes loader-ring-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loader-ring-glow {
+  0% {
+    box-shadow: 0 0 40px rgba(255, 214, 10, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 80px rgba(255, 214, 10, 0.6), 0 0 120px rgba(255, 214, 10, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(255, 214, 10, 0.3);
+  }
+}
+
+@keyframes loader-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes loader-particle-burst {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--angle)) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(var(--distance)) scale(0.3);
+  }
+}
+
+@keyframes loader-text-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loader-fade-out {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ---------- Container ---------- */
+.bv-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  background: var(--bg-primary);
+}
+
+/* ---------- Chakra Particles ---------- */
+.bv-hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bv-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  opacity: 0;
+  filter: blur(1px);
+  animation: particle-float linear infinite;
+  box-shadow: 0 0 6px rgba(255, 214, 10, 0.4);
+}
+
+.bv-particle--orange {
+  background: var(--accent-orange);
+  box-shadow: 0 0 6px rgba(255, 61, 0, 0.4);
+}
+
+.bv-particle--bright {
+  background: var(--accent-yellow);
+  box-shadow: 0 0 10px rgba(255, 234, 0, 0.5);
+  filter: blur(0px);
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  10% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateY(-40px) scale(1.1);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.6);
+  }
+}
+
+/* ---------- Chakra Ring ---------- */
+.bv-hero-ring {
+  position: absolute;
+  width: min(520px, 80vw);
+  height: min(520px, 80vw);
+  border-radius: 50%;
+  border: 3px solid rgba(255, 214, 10, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow:
+    0 0 60px rgba(255, 214, 10, 0.08),
+    0 0 120px rgba(255, 214, 10, 0.04),
+    inset 0 0 60px rgba(255, 214, 10, 0.06);
+}
+
+/* Continuous rotation wrapper — separate from GSAP-animated parent */
+.bv-hero-ring-rotate {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 214, 10, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ring-rotate 20s linear infinite;
+}
+
+@keyframes ring-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.bv-hero-ring-inner {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 214, 10, 0.1);
+  animation: ring-pulse 4s ease-in-out infinite;
+  box-shadow:
+    0 0 40px rgba(255, 214, 10, 0.06),
+    inset 0 0 30px rgba(255, 214, 10, 0.04);
+}
+
+/* Glow burst on entrance — flashes once then fades */
+.bv-hero-ring::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 10, 0.15) 0%, transparent 70%);
+  animation: ring-burst 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes ring-burst {
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes ring-pulse {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.05) rotate(3deg);
+    opacity: 1;
+  }
+}
+
+/* ---------- Content ---------- */
+.bv-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 clamp(20px, 5vw, 64px);
+  max-width: 800px;
+  perspective: 600px;
+}
+
+/* Tag */
+.bv-hero-tag {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+}
+
+/* Title */
+.bv-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  margin: 0 0 24px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bv-hero-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Accent gradient line — the one deliberate glow moment */
+.bv-hero-accent {
+  width: 120px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--accent-glow-gradient);
+  margin-bottom: 28px;
+  box-shadow:
+    0 0 12px rgba(255, 214, 10, 0.4),
+    0 0 24px rgba(255, 214, 10, 0.15);
+  animation: accent-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes accent-shimmer {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow:
+      0 0 12px rgba(255, 214, 10, 0.4),
+      0 0 24px rgba(255, 214, 10, 0.15);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 18px rgba(255, 214, 10, 0.6),
+      0 0 36px rgba(255, 214, 10, 0.25);
+  }
+}
+
+/* Subtitle */
+.bv-hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0 0 40px 0;
+  max-width: 520px;
+}
+
+/* CTA Button */
+.bv-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 14px 32px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition:
+    border-color 0.3s var(--ease-chakra),
+    box-shadow 0.3s var(--ease-chakra),
+    transform 0.25s var(--ease-chakra);
+}
+
+.bv-hero-cta:hover {
+  border-color: var(--accent-gold);
+  box-shadow:
+    0 0 16px rgba(255, 214, 10, 0.25),
+    0 0 32px rgba(255, 214, 10, 0.1);
+  transform: translateY(-2px);
+}
+
+.bv-hero-cta:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.bv-hero-cta svg {
+  transition: transform 0.3s var(--ease-chakra);
+}
+
+.bv-hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* ---------- Scroll Indicator ---------- */
+.bv-hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+.bv-hero-scroll-text {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.bv-hero-scroll-icon {
+  color: var(--text-muted);
+}
+
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* Tablet */
+@media (max-width: 860px) {
+  .bv-hero-title {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+  }
+
+  .bv-hero-ring {
+    width: min(400px, 85vw);
+    height: min(400px, 85vw);
+  }
+
+  .bv-hero-subtitle {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  }
+}
+
+/* Small tablet */
+@media (max-width: 600px) {
+  .bv-hero {
+    min-height: 100svh;
+  }
+
+  .bv-hero-title {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .bv-hero-tag {
+    font-size: 0.75rem;
+    margin-bottom: 12px;
+  }
+
+  .bv-hero-accent {
+    width: 80px;
+    margin-bottom: 16px;
+  }
+
+  .bv-hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+
+  .bv-hero-cta {
+    font-size: 0.95rem;
+    padding: 12px 24px;
+  }
+
+  .bv-hero-ring {
+    width: min(300px, 90vw);
+    height: min(300px, 90vw);
+  }
+
+  .bv-hero-scroll {
+    bottom: 20px;
+  }
+
+  .bv-hero-scroll-text {
+    font-size: 0.6rem;
+  }
+}
+
+/* Small phone */
+@media (max-width: 380px) {
+  .bv-hero-title {
+    font-size: 2rem;
+  }
+
+  .bv-hero-content {
+    padding: 0 16px;
+  }
+
+  .bv-hero-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+
+  .bv-hero-subtitle br {
+    display: none;
+  }
+
+  .bv-hero-cta {
+    width: 100%;
+    justify-content: center;
+    max-width: 260px;
+  }
+
+  .bv-hero-scroll {
+    bottom: 16px;
+  }
+}

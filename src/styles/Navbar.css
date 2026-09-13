@@ -243,7 +243,7 @@
 /* ---------- Mobile panel (full-viewport drop-down) ---------- */
 .bv-mobile-panel {
   position: fixed;
-  top: 108px;
+  top: 92px;
   left: 0;
   right: 0;
   bottom: 0;

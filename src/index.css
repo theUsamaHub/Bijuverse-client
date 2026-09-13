@@ -19,3 +19,23 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
 }
+
+@media (max-width: 860px) {
+  html { scroll-padding-top: 90px; }
+  body { padding-top: 90px; }
+}
+
+@media (max-width: 600px) {
+  html { scroll-padding-top: 80px; }
+  body { padding-top: 80px; }
+}
+
+::selection {
+  background: rgba(255, 214, 10, 0.3);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background: rgba(255, 214, 10, 0.3);
+  color: var(--text-primary);
+}

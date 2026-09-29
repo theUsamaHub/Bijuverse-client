@@ -30,15 +30,11 @@
     0 16px 48px -8px rgba(0, 0, 0, 0.12);
 }
 
-/* signature moment: a chakra-gradient hairline fades in only once the page
-   has scrolled, so the effect reads as a state change rather than decoration */
+/* the chakra-gradient border is now always-on and continuously rotating
+   (see .bv-chakra-border in App.css). Scrolling only intensifies its glow,
+   so the bar still reads as a state change rather than pure decoration. */
 .bv-navbar[data-scrolled='true'] {
-  border-color: transparent;
-  background-image:
-    linear-gradient(var(--bg-surface), var(--bg-surface)),
-    var(--accent-glow-gradient);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+  --bv-glow-blur: 12px;
 }
 
 /* ---------- Logo ---------- */

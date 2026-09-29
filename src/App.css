@@ -1,0 +1,59 @@
+/* ==========================================================================
+   GLOBAL UTILITIES
+   Reusable effects available to any component. Global scope so every
+   component shares one source of truth.
+   ========================================================================== */
+
+/* Registered so the conic gradient angle can be smoothly interpolated.
+   Without @property, custom properties animate discretely and the border
+   would jump between keyframes instead of sweeping. */
+@property --bv-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ---------- Animated chakra gradient border ----------
+   Reusable: apply class="bv-chakra-border" to any element to draw a thin,
+   continuously rotating conic-gradient ring hugging its border box
+   (inherits border-radius). Requires the host to be a positioned element
+   (position: relative/absolute/fixed) so the ring can anchor to it.
+   Thickness: set --bv-border-w. Glow blur: set --bv-glow-blur. */
+.bv-chakra-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--bv-border-w, 2px);
+  background: conic-gradient(
+    from var(--bv-angle),
+    transparent 0deg,
+    var(--accent-yellow) 40deg,
+    var(--accent-gold) 90deg,
+    var(--accent-orange) 150deg,
+    transparent 240deg,
+    transparent 360deg
+  );
+  /* Mask keeps only the padding ring, hollowing the center so the host's
+     own background and content show through untouched. */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 var(--bv-glow-blur, 6px) var(--chakra-glow));
+  animation: bv-chakra-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes bv-chakra-spin {
+  to {
+    --bv-angle: 360deg;
+  }
+}
+
+/* Accessibility: freeze the border in a static gradient arc. */
+@media (prefers-reduced-motion: reduce) {
+  .bv-chakra-border::before {
+    animation: none;
+  }
+}

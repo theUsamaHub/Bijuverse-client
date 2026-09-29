@@ -279,7 +279,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bv-navbar" data-scrolled={scrolled}>
+      <nav className="bv-navbar bv-chakra-border" data-scrolled={scrolled}>
         <a href="#home" className="bv-logo" ref={logoRef}>
           The Bijuverse
         </a>

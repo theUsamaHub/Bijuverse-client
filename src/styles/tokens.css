@@ -67,6 +67,9 @@
   --text-primary: var(--void-1000);
   --text-secondary: var(--void-700);
   --text-muted: var(--void-500);
+
+  /* glow tint for the rotating chakra border (App.css .bv-chakra-border) */
+  --chakra-glow: rgba(255, 214, 10, 0.4);
 }
 
 /* ---- Light theme ---- */
@@ -86,4 +89,7 @@
   --accent-yellow: var(--gold-600);   /* #d9a600 */
   /* --accent-orange stays at #FF3D00 — already has enough contrast */
   --accent-glow-gradient: linear-gradient(90deg, var(--gold-600) 0%, var(--gold-700) 45%, var(--orange-500) 100%);
+
+  /* dimmer glow on cream so the border reads without glaring */
+  --chakra-glow: rgba(179, 130, 0, 0.3);
 }

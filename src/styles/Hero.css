@@ -438,42 +438,6 @@
   transform: translateX(4px);
 }
 
-/* ---------- Scroll Indicator ---------- */
-.bv-hero-scroll {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  z-index: 2;
-  animation: scroll-bounce 2s ease-in-out infinite;
-}
-
-.bv-hero-scroll-text {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.bv-hero-scroll-icon {
-  color: var(--text-muted);
-}
-
-@keyframes scroll-bounce {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(8px);
-  }
-}
-
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
@@ -528,14 +492,6 @@
     width: min(300px, 90vw);
     height: min(300px, 90vw);
   }
-
-  .bv-hero-scroll {
-    bottom: 20px;
-  }
-
-  .bv-hero-scroll-text {
-    font-size: 0.6rem;
-  }
 }
 
 /* Small phone */
@@ -561,9 +517,5 @@
     width: 100%;
     justify-content: center;
     max-width: 260px;
-  }
-
-  .bv-hero-scroll {
-    bottom: 16px;
   }
 }

@@ -73,28 +73,6 @@ function ChakraParticles() {
   return <div className="bv-hero-particles">{particles}</div>;
 }
 
-/* ─── Scroll Down Indicator ───────────────────────────────────────── */
-function ScrollIndicator() {
-  return (
-    <div className="bv-hero-scroll">
-      <span className="bv-hero-scroll-text">Scroll</span>
-      <svg
-        className="bv-hero-scroll-icon"
-        viewBox="0 0 24 24"
-        width="20"
-        height="20"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 5v14M5 12l7 7 7-7" />
-      </svg>
-    </div>
-  );
-}
-
 /* ─── Hero Component ────────────────────────────────────────────────
    Full-viewport hero with:
    1. Loading screen — chakra ring expands + particles burst (~1.5s)
@@ -118,7 +96,6 @@ export default function Hero() {
   const accentRef = useRef(null);
   const subtitleRef = useRef(null);
   const ctaRef = useRef(null);
-  const scrollIndicatorRef = useRef(null);
   const loaderRef = useRef(null);
 
   /* ── Loading timer → reveal hero ──────────────────────────────── */
@@ -193,14 +170,6 @@ export default function Hero() {
         0.65
       );
 
-      // Scroll indicator
-      tl.fromTo(
-        scrollIndicatorRef.current,
-        { y: -10, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4 },
-        0.8
-      );
-
       // Ring — starts visible from loader, stays visible
       gsap.set(ringRef.current, { scale: 1, opacity: 1 });
     }, heroRef);
@@ -242,21 +211,6 @@ export default function Hero() {
               start: 'top top',
               end: '60% top',
               scrub: 0.3,
-            },
-          }
-        );
-
-        gsap.fromTo(
-          scrollIndicatorRef.current,
-          { opacity: 1 },
-          {
-            opacity: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: heroRef.current,
-              start: '10% top',
-              end: '25% top',
-              scrub: true,
             },
           }
         );
@@ -330,10 +284,6 @@ export default function Hero() {
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
-      </div>
-
-      <div ref={scrollIndicatorRef}>
-        <ScrollIndicator />
       </div>
     </section>
   );

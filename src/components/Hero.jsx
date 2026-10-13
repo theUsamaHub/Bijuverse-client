@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Link } from 'react-router';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,36 +14,6 @@ function particleRandom(index, seed) {
   const value = Math.sin((index + 1) * 127.1 + seed * 311.7) * 43758.5453;
   return value - Math.floor(value);
 }
-const LOADER_PARTICLE_COUNT = 16;
-
-function LoaderParticles() {
-  return (
-    <div className="bv-loader-particles">
-      {Array.from({ length: LOADER_PARTICLE_COUNT }, (_, i) => {
-        const angle = (360 / LOADER_PARTICLE_COUNT) * i;
-        const distance = 80 + particleRandom(i, 1) * 60;
-        const size = 3 + particleRandom(i, 2) * 4;
-        const delay = particleRandom(i, 3) * 0.2;
-        const isOrange = i % 3 === 0;
-
-        return (
-          <span
-            key={i}
-            className={`bv-loader-particle ${isOrange ? 'bv-loader-particle--orange' : ''}`}
-            style={{
-              '--angle': `${angle}deg`,
-              '--distance': `${distance}px`,
-              width: size,
-              height: size,
-              animationDelay: `${delay}s`,
-            }}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
 /* ─── Chakra Particles (hero background) ──────────────────────────── */
 const PARTICLE_COUNT = 40;
 
@@ -78,21 +48,8 @@ function ChakraParticles() {
   return <div className="bv-hero-particles">{particles}</div>;
 }
 
-/* ─── Hero Component ────────────────────────────────────────────────
-   Full-viewport hero with:
-   1. Loading screen — chakra ring expands + particles burst (~1.5s)
-   2. Hero entrance — staggered text reveal after loader fades
-   3. ScrollTrigger — fade + parallax on scroll
-
-   Loading sequence:
-     0.0s  — loader ring expands from dot
-     0.2s  — loader particles burst outward
-     0.6s  — ring glow flash
-     1.2s  — loader overlay fades out
-     1.4s  — hero entrance timeline starts
-   ─────────────────────────────────────────────────────────────────── */
-export default function Hero() {
-  const [loading, setLoading] = useState(true);
+/* Hero entrance waits for the shared page loader. */
+export default function Hero({ loading = false }) {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
   const ringRef = useRef(null);
@@ -101,24 +58,6 @@ export default function Hero() {
   const accentRef = useRef(null);
   const subtitleRef = useRef(null);
   const ctaRef = useRef(null);
-  const loaderRef = useRef(null);
-
-  /* ── Loading timer → reveal hero ──────────────────────────────── */
-  useEffect(() => {
-    // Block scroll during load
-    document.body.style.overflow = 'hidden';
-
-    const timer = setTimeout(() => {
-      setLoading(false);
-      document.body.style.overflow = '';
-    }, 1500); // 1.5s loading duration
-
-    return () => {
-      clearTimeout(timer);
-      document.body.style.overflow = '';
-    };
-  }, []);
-
   /* ── Entrance timeline (runs after loading completes) ─────────── */
   useEffect(() => {
     if (loading) return; // wait for loader to finish
@@ -238,17 +177,6 @@ export default function Hero() {
 
   return (
     <section className="bv-hero" ref={heroRef} id="home">
-      {/* ── Loading Screen ──────────────────────────────────────── */}
-      {loading && (
-        <div className="bv-hero-loader" ref={loaderRef}>
-          <div className="bv-loader-ring">
-            <div className="bv-loader-ring-glow" />
-          </div>
-          <LoaderParticles />
-          <span className="bv-loader-text">The Bijuverse</span>
-        </div>
-      )}
-
       {/* ── Hero Content ────────────────────────────────────────── */}
       <ChakraParticles />
 

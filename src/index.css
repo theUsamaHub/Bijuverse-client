@@ -5,14 +5,14 @@
 }
 
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-padding-top: 108px;
 }
 
 body {
   margin: 0;
   padding-top: 108px;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -37,3 +37,7 @@ body {
   background: rgba(255, 214, 10, 0.3);
   color: var(--text-primary);
 }
+/* Keep native wheel, touch, and keyboard scrolling without visible tracks. */
+html, body { scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+html[data-page-loading] { overflow: hidden; }

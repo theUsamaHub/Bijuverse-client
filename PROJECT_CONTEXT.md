@@ -86,3 +86,10 @@ Current direction overrides the older stack notes above: frontend first; neither
 See [docs/DATABASE_PLAN.md](docs/DATABASE_PLAN.md) for the current schema proposal and confirmed requirements. One protected admin logs in with email/password through a custom route; no registration. Social links share a catalog of 15 common platforms plus Other. Books contain chapters with formatted editor JSON, multiple positioned images, draft/published separation, and a shared media library. Tiptap open-source is recommended; no editor dependencies or database have been installed. Backend framework and database engine remain undecided; no Laravel or Express assumption applies.
 
 - Feedback refinement: one shared reviews table links each submission to exactly one book, artwork, or project using constrained foreign keys. Shared pending/approved/rejected moderation; anonymous visitor submissions. Comments is an optional display label; rating remains nullable pending the form design. See DATABASE_PLAN.md section 7.1.
+
+## Database-aligned public UI and access previews — 2026-10-13
+- Books, chapters, artwork, projects, media, and social fixtures now follow separate entities; My Work combines them through a presentation adapter.
+- Public book/chapter routes, a sample reader with multiple images, artwork lightbox, and shared item comments are implemented. Feedback submission remains an explicit local preview, never an approved public comment.
+- Styled animated login/recovery samples at `/studio-access` and `/studio-access/recovery`; no public login link, registration, user deletion, or real authentication.
+- Reusable 403/404/500/503 designs and a route error boundary. Actual HTTP status handling remains a server responsibility.
+- Preview URLs, integration boundaries, and checks: [docs/FRONTEND_PREVIEWS.md](docs/FRONTEND_PREVIEWS.md).

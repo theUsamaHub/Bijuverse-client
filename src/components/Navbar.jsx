@@ -260,7 +260,7 @@ export default function Navbar() {
               <Link
                 to={link.href}
                 className="bv-link"
-                aria-current={(link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)) ? "page" : undefined}
+                aria-current={(link.href === "/" ? pathname === "/" : ['/work', '/books', '/artwork', '/projects'].some(path => pathname.startsWith(path))) ? "page" : undefined}
                 onMouseEnter={() => handleLinkEnter(link.label)}
                 onMouseLeave={() => handleLinkLeave(link.label)}
               >

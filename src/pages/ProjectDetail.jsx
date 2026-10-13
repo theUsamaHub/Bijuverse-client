@@ -1,12 +1,26 @@
-import { Link, useParams } from 'react-router';
-import { projects } from '../data/portfolio';
+import { useState } from 'react';
+import { Link, Navigate, useParams } from 'react-router';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
+import { artworks, projects, artworkMedia, getMedia, workItems } from '../data/portfolio';
 import ProjectVisual from '../components/ProjectVisual';
-export function NotFound() {
-  return <div className="bv-page bv-empty"><p className="bv-eyebrow">404 / UNCHARTED TERRITORY</p><h1>This world is still undiscovered.</h1><p>The page you’re looking for isn’t here.</p><Link className="bv-button" to="/work">Back to My Work ↗</Link></div>;
-}
-export default function ProjectDetail() {
+import ItemReviews from '../components/ItemReviews';
+import ErrorPage from './ErrorPage';
+
+export function LegacyWorkDetail() {
   const { slug } = useParams();
-  const project = projects.find(p => p.slug === slug);
-  if (!project) return <NotFound />;
-  return <article className="bv-page bv-detail"><title>{`${project.title} — The Bijuverse`}</title><Link to="/work" className="bv-text-link">← Back to My Work</Link><header><p className="bv-eyebrow">{project.tag} / {project.sample ? 'LAYOUT PREVIEW' : 'STORY COLLECTION'}</p><h1>{project.title}</h1><p>{project.description}</p></header><ProjectVisual project={project} /><div className="bv-detail-body"><section><p className="bv-eyebrow">ABOUT THIS WORLD</p><h2>{project.category === 'Stories' ? 'Every world begins with a story.' : 'Behind the project.'}</h2><p>{project.note}</p></section><aside><p className="bv-eyebrow">PROJECT FILE</p><dl><dt>Format</dt><dd>{project.category}</dd><dt>Status</dt><dd>Content coming soon</dd><dt>Collection</dt><dd>The Bijuverse</dd></dl></aside></div>{project.category === 'Stories' ? <section className="bv-chapters"><div className="bv-section-heading"><div><p className="bv-eyebrow">THE READING ROOM</p><h2>Chapter collection<span>.</span></h2></div><span className="bv-status">Awaiting chapters</span></div><p>Chapter titles and text will appear here when they’re ready. The planned collection contains approximately 6–7 chapters.</p><div className="bv-chapter-placeholder"><span aria-hidden="true">01 —</span><div><h3>A new chapter is on its way</h3><p>The story has been announced. Check back for the first chapter.</p></div></div></section> : <section className="bv-chapters"><p className="bv-eyebrow">{project.category === 'Videos' ? 'SCREENING ROOM' : 'ARTWORK PREVIEW'}</p><h2>{project.category === 'Videos' ? 'The screen is waiting.' : 'The canvas is waiting.'}</h2><p>{project.category === 'Videos' ? 'The video player will be available when the final project video is supplied.' : 'The full artwork will be available when the original image is supplied.'}</p></section>}<div className="bv-detail-next"><span>Keep exploring the archive</span><Link className="bv-text-link" to="/work">All work ↗</Link></div></article>;
+  const item = workItems.find(entry => entry.slug === slug);
+  return item ? <Navigate to={item.href} replace /> : <ErrorPage code="404" />;
+}
+export default function ProjectDetail({ type = 'project' }) {
+  const { slug } = useParams();
+  const [imageIndex, setImageIndex] = useState(-1);
+  const item = (type === 'artwork' ? artworks : projects).find(entry => entry.slug === slug && entry.status === 'published');
+  if (!item) return <ErrorPage code="404" />;
+  const images = type === 'artwork' ? artworkMedia.filter(m => m.artwork_id === item.id).sort((a, b) => a.sort_order - b.sort_order).map(m => getMedia(m.media_id)).filter(Boolean) : [];
+  return <article className="bv-page bv-detail"><title>{`${item.title} — The Bijuverse`}</title><Link className="bv-text-link" to={`/work?category=${type === 'artwork' ? 'Artwork' : 'Projects'}`}>← Back to My Work</Link>
+    <header><p className="bv-eyebrow">{item.category} / {item.sample ? 'ORIGINAL SAMPLE' : 'PORTFOLIO'}</p><h1>{item.title}</h1><p>{item.description}</p></header>
+    {images.length ? <><div className="bv-artwork-gallery">{images.map((image, i) => <button key={image.id} onClick={() => setImageIndex(i)} aria-label={`Enlarge image ${i + 1}: ${image.default_alt}`}><img src={image.url} alt={image.default_alt} /><span>View artwork ↗</span></button>)}</div><Lightbox open={imageIndex >= 0} close={() => setImageIndex(-1)} index={imageIndex} slides={images.map(m => ({ src: m.url, alt: m.default_alt, width: 1400, height: 800 }))} /></> : <><ProjectVisual project={workItems.find(entry => entry.id === item.id)} /><div className="bv-media-waiting"><span aria-hidden="true">▷</span><h2>A little anticipation.</h2><p>The final video is coming soon. Explore the other worlds while it takes shape.</p><Link className="bv-text-link" to="/work">Explore the collection ↗</Link></div></>}
+    <ItemReviews key={item.id} type={type} itemId={item.id} title={item.title} />
+  </article>;
 }

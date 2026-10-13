@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { Link } from 'react-router';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../styles/Hero.css';
 
@@ -9,6 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
    16 particles that burst outward from centre during the loading
    sequence. Pure CSS keyframes — no JS animation needed.
    ─────────────────────────────────────────────────────────────────── */
+function particleRandom(index, seed) {
+  const value = Math.sin((index + 1) * 127.1 + seed * 311.7) * 43758.5453;
+  return value - Math.floor(value);
+}
 const LOADER_PARTICLE_COUNT = 16;
 
 function LoaderParticles() {
@@ -16,9 +21,9 @@ function LoaderParticles() {
     <div className="bv-loader-particles">
       {Array.from({ length: LOADER_PARTICLE_COUNT }, (_, i) => {
         const angle = (360 / LOADER_PARTICLE_COUNT) * i;
-        const distance = 80 + Math.random() * 60;
-        const size = 3 + Math.random() * 4;
-        const delay = Math.random() * 0.2;
+        const distance = 80 + particleRandom(i, 1) * 60;
+        const size = 3 + particleRandom(i, 2) * 4;
+        const delay = particleRandom(i, 3) * 0.2;
         const isOrange = i % 3 === 0;
 
         return (
@@ -44,12 +49,12 @@ const PARTICLE_COUNT = 40;
 
 function ChakraParticles() {
   const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
-    const size = 2 + Math.random() * 5;
-    const left = Math.random() * 100;
-    const top = Math.random() * 100;
-    const duration = 4 + Math.random() * 8;
-    const delay = Math.random() * -12;
-    const variant = Math.random();
+    const size = 2 + particleRandom(i, 4) * 5;
+    const left = particleRandom(i, 5) * 100;
+    const top = particleRandom(i, 6) * 100;
+    const duration = 4 + particleRandom(i, 7) * 8;
+    const delay = particleRandom(i, 8) * -12;
+    const variant = particleRandom(i, 9);
     let cls = 'bv-particle';
     if (variant > 0.7) cls += ' bv-particle--orange';
     else if (variant > 0.5) cls += ' bv-particle--bright';
@@ -117,6 +122,7 @@ export default function Hero() {
   /* ── Entrance timeline (runs after loading completes) ─────────── */
   useEffect(() => {
     if (loading) return; // wait for loader to finish
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -179,10 +185,11 @@ export default function Hero() {
 
   /* ── ScrollTrigger: fade + parallax on scroll ─────────────────── */
   useEffect(() => {
-    if (loading) return;
+    if (loading || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    let ctx;
     const timer = setTimeout(() => {
-      const ctx = gsap.context(() => {
+      ctx = gsap.context(() => {
         gsap.fromTo(
           contentRef.current,
           { y: 0, opacity: 1 },
@@ -216,10 +223,9 @@ export default function Hero() {
         );
       }, heroRef);
 
-      return () => ctx.revert();
     }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => { clearTimeout(timer); ctx?.revert(); };
   }, [loading]);
 
   /* ── Split title into individual characters ───────────────────── */
@@ -269,7 +275,7 @@ export default function Hero() {
           Where creativity meets the chakra of design.
         </p>
 
-        <a href="#projects" className="bv-hero-cta" ref={ctaRef}>
+        <Link to="/work" className="bv-hero-cta" ref={ctaRef}>
           <span>Explore My Work</span>
           <svg
             viewBox="0 0 24 24"
@@ -283,7 +289,7 @@ export default function Hero() {
           >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
-        </a>
+        </Link>
       </div>
     </section>
   );

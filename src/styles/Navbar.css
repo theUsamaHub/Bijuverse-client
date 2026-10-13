@@ -329,4 +329,5 @@
   .bv-mobile-panel .bv-link {
     font-size: 1.1rem;
   }
-}
+}.bv-link[aria-current='page'] { color: var(--accent-gold); }
+@media (min-width: 861px) { .bv-mobile-panel { display: none; } }

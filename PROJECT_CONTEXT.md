@@ -69,3 +69,15 @@ Full expanded palette (tints/shades + neutral gray scale + dark/light semantic t
 - Final nav link list (currently placeholder: Home, My Projects, Reviews, Contact)
 - Real social media URLs (currently placeholder links)
 - Whether/when a real logo (vs. text wordmark) will be provided
+
+## Frontend module 1 — October 2026
+Current direction overrides the older stack notes above: frontend first; neither Laravel nor Express is selected.
+- Branch: codex/my-work-frontend.
+- Existing hero retained; My Work preview links to /work.
+- /work has category filters, URL-backed category selection, search, and empty states.
+- /work/:slug provides project/story detail layouts. Unknown routes display a 404.
+- Navbar and footer share social configuration in src/data/portfolio.js. Facebook uses the supplied profile; Discord awaits its official URL.
+- Story content awaits delivery. Artwork/video entries are explicitly marked layout previews with original CSS cover treatments.
+- Chapter reader, full gallery, contact/reviews, and admin remain later modules.
+- Existing installed dependencies were sufficient; no package installation was needed.
+- Production hosting must rewrite non-asset routes to index.html for BrowserRouter deep links.

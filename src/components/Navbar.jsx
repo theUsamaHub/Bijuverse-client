@@ -1,50 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { Link, useLocation } from 'react-router';
+import SocialLinks from './SocialLinks';
 import '../styles/Navbar.css';
 
-// Swap Home / My Projects / Reviews / Contact for the client's real page
-// list once it's confirmed — these are placeholders for "home, my projects, etc."
-const LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'My Work', href: '#projects' },
-  { label: 'Projects', href: '#reviews' },
-  { label: 'Contact me', href: '#contact' },
-];
-
-// Inline SVGs so the navbar has zero icon-library dependency beyond gsap.
-// Swap hrefs for the client's real profiles.
-const SOCIALS = [
-  {
-    name: 'Instagram',
-    href: 'https://instagram.com',
-    svg: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    name: 'X',
-    href: 'https://x.com',
-    svg: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-        <path d="M18.24 2h3.3l-7.2 8.23L23 22h-6.9l-5.4-7.06L4.5 22H1.2l7.7-8.8L1 2h7.06l4.88 6.45L18.24 2Zm-1.16 18h1.83L7.02 3.9H5.06L17.08 20Z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'YouTube',
-    href: 'https://youtube.com',
-    svg: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
-        <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-];
+const LINKS = [{ label: 'Home', href: '/' }, { label: 'My Work', href: '/work' }];
 
 const SunIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -183,8 +143,9 @@ const ChidoriIcon = () => (
 ─────────────────────────────────────────────────────────────────── */
 
 export default function Navbar() {
+  const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(() => { try { return localStorage.getItem('bv-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } });
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const logoRef = useRef(null);
@@ -205,17 +166,20 @@ export default function Navbar() {
   // Apply theme to <html> so the rest of the site can read the same tokens
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('bv-theme', theme); } catch { /* Storage can be unavailable. */ }
   }, [theme]);
 
   // Idle logo shimmer — the one ambient animation on the bar, kept slow and quiet
   useEffect(() => {
     if (!logoRef.current) return;
-    gsap.to(logoRef.current, {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const tween = gsap.to(logoRef.current, {
       backgroundPosition: '300% 0%',
       duration: 6,
       repeat: -1,
       ease: 'linear',
     });
+    return () => tween.kill();
   }, []);
 
   // Collect tomoe refs from the Sharingan SVG for GSAP rotation
@@ -239,6 +203,7 @@ export default function Navbar() {
   // Mobile panel open/close + body scroll lock + Sharingan tomoe spin
   useEffect(() => {
     if (!mobilePanelRef.current) return;
+    const ctx = gsap.context(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden';
       gsap.set(mobilePanelRef.current, { pointerEvents: 'auto' });
@@ -274,22 +239,28 @@ export default function Navbar() {
         transformOrigin: '20px 20px',
       });
     }
-    return () => { document.body.style.overflow = ''; };
+    });
+    const handleKey = e => { if (e.key === 'Escape') { setMobileOpen(false); burgerRef.current?.focus(); } };
+    const handleResize = () => { if (window.innerWidth > 860) setMobileOpen(false); };
+    document.addEventListener('keydown', handleKey);
+    window.addEventListener('resize', handleResize);
+    return () => { ctx.revert(); document.body.style.overflow = ''; document.removeEventListener('keydown', handleKey); window.removeEventListener('resize', handleResize); };
   }, [mobileOpen]);
 
   return (
     <>
       <nav className="bv-navbar bv-chakra-border" data-scrolled={scrolled}>
-        <a href="#home" className="bv-logo" ref={logoRef}>
+        <Link to="/" className="bv-logo" ref={logoRef} onClick={() => setMobileOpen(false)}>
           The Bijuverse
-        </a>
+        </Link>
 
         <ul className="bv-links">
           {LINKS.map((link) => (
             <li key={link.label}>
-              <a
-                href={link.href}
+              <Link
+                to={link.href}
                 className="bv-link"
+                aria-current={(link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)) ? "page" : undefined}
                 onMouseEnter={() => handleLinkEnter(link.label)}
                 onMouseLeave={() => handleLinkLeave(link.label)}
               >
@@ -298,26 +269,13 @@ export default function Navbar() {
                   className="bv-link-underline"
                   ref={(el) => (underlineRefs.current[link.label] = el)}
                 />
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="bv-right">
-          <div className="bv-socials">
-            {SOCIALS.map((s) => (
-              <a
-                key={s.name}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className="bv-social-icon"
-                aria-label={s.name}
-              >
-                {s.svg}
-              </a>
-            ))}
-          </div>
+          <SocialLinks />
 
           <button
             type="button"
@@ -331,7 +289,8 @@ export default function Navbar() {
           <button
             type="button"
             className="bv-burger"
-            aria-label="Open menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-controls="mobile-menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
             ref={burgerRef}
@@ -341,17 +300,17 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <div className="bv-mobile-panel" ref={mobilePanelRef}>
+      <div id="mobile-menu" className="bv-mobile-panel" ref={mobilePanelRef} inert={!mobileOpen} onKeyDown={e => { if (e.key === "Escape") { setMobileOpen(false); burgerRef.current?.focus(); } }}>
         {LINKS.map((link, i) => (
-          <a
+          <Link
             key={link.label}
-            href={link.href}
+            to={link.href}
             className="bv-link"
             ref={(el) => (mobileLinkRefs.current[i] = el)}
             onClick={() => setMobileOpen(false)}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
         <div className="bv-mobile-actions">
           <button
@@ -362,13 +321,7 @@ export default function Navbar() {
           >
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
-          <div className="bv-socials">
-            {SOCIALS.map((s) => (
-              <a key={s.name} href={s.href} target="_blank" rel="noreferrer" className="bv-social-icon" aria-label={s.name}>
-                {s.svg}
-              </a>
-            ))}
-          </div>
+          <SocialLinks />
         </div>
       </div>
     </>

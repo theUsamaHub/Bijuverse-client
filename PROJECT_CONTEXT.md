@@ -81,3 +81,8 @@ Current direction overrides the older stack notes above: frontend first; neither
 - Chapter reader, full gallery, contact/reviews, and admin remain later modules.
 - Existing installed dependencies were sufficient; no package installation was needed.
 - Production hosting must rewrite non-asset routes to index.html for BrowserRouter deep links.
+
+## Database and chapter CMS plan — 2026-10-13
+See [docs/DATABASE_PLAN.md](docs/DATABASE_PLAN.md) for the current schema proposal and confirmed requirements. One protected admin logs in with email/password through a custom route; no registration. Social links share a catalog of 15 common platforms plus Other. Books contain chapters with formatted editor JSON, multiple positioned images, draft/published separation, and a shared media library. Tiptap open-source is recommended; no editor dependencies or database have been installed. Backend framework and database engine remain undecided; no Laravel or Express assumption applies.
+
+- Feedback refinement: one shared reviews table links each submission to exactly one book, artwork, or project using constrained foreign keys. Shared pending/approved/rejected moderation; anonymous visitor submissions. Comments is an optional display label; rating remains nullable pending the form design. See DATABASE_PLAN.md section 7.1.

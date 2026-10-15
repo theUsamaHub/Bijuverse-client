@@ -46,3 +46,20 @@ The social catalog contains 15 common platforms plus Other. Navbar and footer fi
 - Browser checks: login required-field errors, password visibility, demo submission, recovery navigation, book comments validation/pending receipt, reader text-size controls, two inline images, phone-width/light-mode layout, artwork lightbox navigation, error layouts.
 
 No new packages were installed. Existing React Hook Form, React Icons, React Router, and Yet Another React Lightbox are reused.
+
+## Artwork, About, and Contact modules — 2026-10-15
+- `/artwork`: published artwork listing, category/search URL state, reset/empty state, links to series details/lightbox/comments.
+- `/about`: sample public biography, decorative portrait placeholder, interests, social links, and links to creative work. Profile fixture is separate from the private admin account; editing via admin remains future work.
+- `/contact`: validated name/email/subject/message form with counter, submitting and preview-receipt states. Does not send/store messages or claim delivery.
+- Home: artwork preview, About introduction, and contact invitation. Navbar/footer include all new pages; mobile menu breakpoint widened for the longer navigation.
+- Sample illustrations remain clearly labeled. Replace biography, portrait, artwork, and official social URLs with client content before launch.
+- Verified this module with lint, production build, catalog tests, gallery category/search/reset states, contact required/invalid-email validation and preview receipt, mobile navigation, and 390px/1440px layout checks.
+
+## Remaining modules / integration
+1. Admin dashboard and real login/recovery/session enforcement.
+2. Content management for books, chapters (Tiptap editor and image uploads), artwork/projects, About/profile, and social links.
+3. Contact storage, spam protection, email notifications, inbox and replies.
+4. Review submission storage and approval/rejection moderation.
+5. Real project videos, client artwork/biography, social URLs, and chapter content.
+6. View analytics, admin-editable SEO, server-rendered share metadata, robots.txt and sitemap.
+7. Final accessibility/performance/browser checks and deployment/server status mapping. Custom cursor remains optional pending implementation.

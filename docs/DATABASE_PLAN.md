@@ -310,3 +310,9 @@ Optional later improvements: revision history with restore, scheduled publishing
 - Lexical alternative: https://lexical.dev/docs/intro and https://github.com/facebook/lexical
 
 The schema, workflow, limits, and editor choice above are project design proposals, not claims that these features already exist in the current frontend.
+
+## 10. About/profile content addition — 2026-10-15
+
+The public About page uses a separate singleton `site_profile` record, not the private admin account. Proposed fields: id (fixed 1 with CHECK), display_name, headline, introduction, biography_json (or validated paragraph list for v1), portrait_media_id (nullable FK media_assets, delete restricted), interests_json (bounded array of labels), status (draft/published), created_at, updated_at. No public email/password/session fields. The existing sample `src/data/profile.js` maps to this public content shape. Add a future admin About editor with explicit Save/Publish; server-side public queries return published content only. Until then, the biography and portrait are clearly identified as pending client content. Archive/hide behavior and media reference checks must cover the profile portrait too.
+
+Contact form field contract: name (trimmed, 1–100 chars), email (validated, max 254), subject (trimmed, 1–200), message (trimmed, 1–5000). Actual submission will insert a contacts row with server-owned status=new and timestamps. Server validation, spam/rate limits, email notification, inbox/reply management, and delivery failure handling remain unimplemented. The current form uses demo details, sends no requests, and displays a truthful preview receipt. Do not enable a Send label until delivery/storage is implemented.

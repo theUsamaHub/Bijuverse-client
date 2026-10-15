@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router';
 import SocialLinks from './SocialLinks';
 import '../styles/Navbar.css';
 
-const LINKS = [{ label: 'Home', href: '/' }, { label: 'My Work', href: '/work' }];
+const LINKS = [{ label: 'Home', href: '/' }, { label: 'My Work', href: '/work' }, { label: 'Artwork', href: '/artwork' }, { label: 'About', href: '/about' }, { label: 'Contact', href: '/contact' }];
 
 const SunIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -241,7 +241,7 @@ export default function Navbar() {
     }
     });
     const handleKey = e => { if (e.key === 'Escape') { setMobileOpen(false); burgerRef.current?.focus(); } };
-    const handleResize = () => { if (window.innerWidth > 860) setMobileOpen(false); };
+    const handleResize = () => { if (window.innerWidth > 1100) setMobileOpen(false); };
     document.addEventListener('keydown', handleKey);
     window.addEventListener('resize', handleResize);
     return () => { ctx.revert(); document.body.style.overflow = ''; document.removeEventListener('keydown', handleKey); window.removeEventListener('resize', handleResize); };
@@ -260,7 +260,7 @@ export default function Navbar() {
               <Link
                 to={link.href}
                 className="bv-link"
-                aria-current={(link.href === "/" ? pathname === "/" : ['/work', '/books', '/artwork', '/projects'].some(path => pathname.startsWith(path))) ? "page" : undefined}
+                aria-current={(link.href === '/' ? pathname === '/' : link.href === '/work' ? ['/work', '/books', '/projects'].some(path => pathname.startsWith(path)) : pathname.startsWith(link.href)) ? "page" : undefined}
                 onMouseEnter={() => handleLinkEnter(link.label)}
                 onMouseLeave={() => handleLinkLeave(link.label)}
               >

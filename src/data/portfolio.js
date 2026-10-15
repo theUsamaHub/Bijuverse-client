@@ -31,9 +31,11 @@ export const chapters = [
   { id: 'chapter-draft', book_id: 'book-embers', slug: 'unpublished', chapter_number: 3, sort_order: 2, status: 'draft', published_snapshot_json: null },
 ];
 export const artworks = [
+  { id: 'art-gate', slug: 'midnight-gate', title: 'The midnight gate', description: 'A quiet threshold, a crescent moon, and a path into the unknown.', category: 'Environment study', status: 'published', sort_order: 1, sample: true },
   { id: 'art-valley', slug: 'chakra-study', title: 'The golden hour', description: 'A landscape study in layered silhouettes, warm light, and quiet movement.', category: 'Landscape study', status: 'published', sort_order: 0, sample: true },
 ];
 export const artworkMedia = [
+  { artwork_id: 'art-gate', media_id: 'media-gate', sort_order: 0 },
   { artwork_id: 'art-valley', media_id: 'media-valley', sort_order: 0 },
   { artwork_id: 'art-valley', media_id: 'media-gate', sort_order: 1 },
 ];

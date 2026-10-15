@@ -18,6 +18,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { adminPaths } from './config/routes';
 import './styles/Content.css';
 import './styles/Access.css';
+import './styles/PublicPages.css';
+import Artwork, { ArtworkPreview } from './pages/Artwork';
+import About, { AboutPreview, ContactInvitation } from './pages/About';
+import Contact from './pages/Contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,11 +68,14 @@ function PageFrame() {
         {!isAccess && <Navbar />}
         <main id="main" aria-busy={loading}>
           <ErrorBoundary><Routes>
-            <Route path="/" element={<><Hero loading={loading} /><WorkPreview /></>} />
+            <Route path="/" element={<><Hero loading={loading} /><WorkPreview /><ArtworkPreview /><AboutPreview /><div className="bv-page bv-home-contact"><ContactInvitation /></div></>} />
             <Route path="/work" element={<Work />} />
             <Route path="/work/:slug" element={<LegacyWorkDetail />} />
             <Route path="/books/:bookSlug" element={<BookDetail />} />
             <Route path="/books/:bookSlug/chapters/:chapterSlug" element={<ChapterReader />} />
+            <Route path="/artwork" element={<Artwork />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/artwork/:slug" element={<ProjectDetail type="artwork" />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path={adminPaths.login} element={<Login />} />

@@ -93,3 +93,6 @@ See [docs/DATABASE_PLAN.md](docs/DATABASE_PLAN.md) for the current schema propos
 - Styled animated login/recovery samples at `/studio-access` and `/studio-access/recovery`; no public login link, registration, user deletion, or real authentication.
 - Reusable 403/404/500/503 designs and a route error boundary. Actual HTTP status handling remains a server responsibility.
 - Preview URLs, integration boundaries, and checks: [docs/FRONTEND_PREVIEWS.md](docs/FRONTEND_PREVIEWS.md).
+
+## Public sections — 2026-10-15
+Artwork gallery, About, and Contact pages are now connected to home, navbar, and footer. About uses a separate public-profile fixture (sample biography/portrait pending); Contact validates inputs but sends nothing in this frontend-only phase. See docs/FRONTEND_PREVIEWS.md for remaining modules and docs/DATABASE_PLAN.md section 10 for profile/contact contracts.

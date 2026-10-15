@@ -63,3 +63,8 @@ No new packages were installed. Existing React Hook Form, React Icons, React Rou
 5. Real project videos, client artwork/biography, social URLs, and chapter content.
 6. View analytics, admin-editable SEO, server-rendered share metadata, robots.txt and sitemap.
 7. Final accessibility/performance/browser checks and deployment/server status mapping. Custom cursor remains optional pending implementation.
+
+### Artwork presentation refinement
+- Dedicated artwork detail route: gallery breadcrumb, visible title/category, contained image viewer, numbered selectable thumbnails and fullscreen viewing.
+- More artwork uses compact cards, excludes the current item and prefers matching categories. Comments remain scoped to the selected artwork.
+- Gallery and home artwork cards now use framed images and clearer titles. Project details retain their own My Work navigation.

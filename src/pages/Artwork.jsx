@@ -1,11 +1,11 @@
 import { Link, useSearchParams } from 'react-router';
 import { artworks, artworkMedia, getMedia } from '../data/portfolio';
 const published = artworks.filter(item => item.status === 'published').sort((a, b) => a.sort_order - b.sort_order);
-function ArtworkCard({ item }) {
+export function ArtworkCard({ item }) {
   const image = getMedia(artworkMedia.filter(m => m.artwork_id === item.id).sort((a, b) => a.sort_order - b.sort_order)[0]?.media_id);
   return <Link className="bv-gallery-card" to={`/artwork/${item.slug}`}>
     <div className="bv-gallery-image">{image ? <img src={image.url} alt={image.default_alt} loading="lazy" /> : <span>Artwork coming soon</span>}<span className="bv-gallery-arrow" aria-hidden="true">↗</span></div>
-    <div className="bv-gallery-caption"><div><p className="bv-eyebrow">{item.category}{item.sample ? ' / SAMPLE' : ''}</p><h2>{item.title}</h2></div><span>VIEW SERIES</span></div>
+    <div className="bv-gallery-caption"><div><p className="bv-eyebrow">{item.category}{item.sample ? ' / SAMPLE' : ''}</p><h3>{item.title}</h3></div><span>VIEW ARTWORK</span></div>
     <p>{item.description}</p>
   </Link>;
 }

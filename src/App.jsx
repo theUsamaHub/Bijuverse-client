@@ -22,6 +22,7 @@ import './styles/PublicPages.css';
 import Artwork, { ArtworkPreview } from './pages/Artwork';
 import About, { AboutPreview, ContactInvitation } from './pages/About';
 import Contact from './pages/Contact';
+import ArtworkDetail from './pages/ArtworkDetail';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,7 +77,7 @@ function PageFrame() {
             <Route path="/artwork" element={<Artwork />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/artwork/:slug" element={<ProjectDetail type="artwork" />} />
+            <Route path="/artwork/:slug" element={<ArtworkDetail />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path={adminPaths.login} element={<Login />} />
             <Route path={adminPaths.recovery} element={<Login recovery />} />

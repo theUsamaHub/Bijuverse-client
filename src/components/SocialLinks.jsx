@@ -2,6 +2,7 @@ import { FaFacebookF, FaDiscord, FaInstagram, FaYoutube, FaTiktok, FaLinkedinIn,
 import { FaXTwitter, FaThreads } from 'react-icons/fa6';
 import { socialLinks, socialPlatforms } from '../data/portfolio';
 const icons = { facebook: FaFacebookF, discord: FaDiscord, instagram: FaInstagram, youtube: FaYoutube, tiktok: FaTiktok, x: FaXTwitter, linkedin: FaLinkedinIn, github: FaGithub, twitch: FaTwitch, reddit: FaRedditAlien, pinterest: FaPinterestP, snapchat: FaSnapchatGhost, telegram: FaTelegramPlane, whatsapp: FaWhatsapp, threads: FaThreads };
+export function SocialIcon({ platform, size = 20 }) { const Icon = icons[platform] || FaLink; return <Icon size={size} aria-hidden="true" />; }
 export default function SocialLinks({ placement = 'navbar' }) {
   const links = socialLinks.filter(link => link.is_active && link[`show_in_${placement}`]).sort((a, b) => a.sort_order - b.sort_order);
   return <div className="bv-socials">{links.map(link => {

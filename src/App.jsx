@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -25,6 +25,7 @@ import Contact from './pages/Contact';
 import ArtworkDetail from './pages/ArtworkDetail';
 
 gsap.registerPlugin(ScrollTrigger);
+const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 function PageFrame() {
   const { pathname } = useLocation();
@@ -93,6 +94,7 @@ function PageFrame() {
 
 function Shell() {
   const { pathname } = useLocation();
+  if (pathname === '/studio' || pathname.startsWith('/studio/')) return <Suspense fallback={<PageLoader />}><Routes><Route path="/studio/*" element={<AdminApp />} /></Routes></Suspense>;
   // New pages replay the loader; filtering within My Work does not.
   return <PageFrame key={pathname} />;
 }

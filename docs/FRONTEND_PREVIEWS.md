@@ -68,3 +68,6 @@ No new packages were installed. Existing React Hook Form, React Icons, React Rou
 - Dedicated artwork detail route: gallery breadcrumb, visible title/category, contained image viewer, numbered selectable thumbnails and fullscreen viewing.
 - More artwork uses compact cards, excludes the current item and prefers matching categories. Comments remain scoped to the selected artwork.
 - Gallery and home artwork cards now use framed images and clearer titles. Project details retain their own My Work navigation.
+
+## Admin frontend — 2026-10-17
+The `/studio` design now includes the dashboard, content lists/forms, chapter writing desk, media library, comments, inbox, About/social/SEO editors, analytics empty state, and account design. See [ADMIN_PREVIEW.md](ADMIN_PREVIEW.md) for routes, tested interactions, and the backend integration boundary. All edits are in-memory previews; public content and authentication remain unchanged.

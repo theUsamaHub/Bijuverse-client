@@ -96,3 +96,5 @@ See [docs/DATABASE_PLAN.md](docs/DATABASE_PLAN.md) for the current schema propos
 
 ## Public sections — 2026-10-15
 Artwork gallery, About, and Contact pages are now connected to home, navbar, and footer. About uses a separate public-profile fixture (sample biography/portrait pending); Contact validates inputs but sends nothing in this frontend-only phase. See docs/FRONTEND_PREVIEWS.md for remaining modules and docs/DATABASE_PLAN.md section 10 for profile/contact contracts.
+
+2026-10-17: Admin frontend at /studio on codex/admin-panel. Full route/behavior checklist: docs/ADMIN_PREVIEW.md. In-memory preview only, no authentication or backend. Tiptap v3 editor uses draft/published snapshots and media IDs. Do not merge/push until requested.

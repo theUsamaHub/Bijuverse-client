@@ -33,7 +33,7 @@ export default function Login({ recovery = false }) {
           <button className="bv-button bv-login-submit" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Checking preview…' : recovery ? 'Preview recovery' : 'Enter the studio'}<FiArrowUpRight /></button>
           {notice && <p className="bv-form-notice" role="status">{notice}</p>}
         </form>
-        {recovery ? <Link to={adminPaths.login} className="bv-text-link bv-access-back">← Back to sign in</Link> : <p className="bv-access-caption"><FiLock aria-hidden="true" /> One creator. A universe of possibilities.</p>}
+        {recovery ? <Link to={adminPaths.login} className="bv-text-link bv-access-back">← Back to sign in</Link> : <><p className="bv-access-caption"><FiLock aria-hidden="true" /> One creator. A universe of possibilities.</p><Link to={adminPaths.base} className="bv-text-link">Explore admin design preview ↗</Link></>}
       </section>
     </div><footer className="bv-access-footer"><span>© {new Date().getFullYear()} The Bijuverse</span><span>CRAFTED WITH CHAKRA</span></footer>
   </div>;

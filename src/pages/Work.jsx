@@ -3,11 +3,12 @@ import { Link, useSearchParams } from 'react-router';
 import { workItems as projects } from '../data/portfolio';
 import ProjectVisual from '../components/ProjectVisual';
 const categories = ['All work', 'Books', 'Artwork', 'Projects'];
-export function WorkPreview() {
-  return <section className="bv-work-preview bv-page"><div className="bv-section-heading"><div><p className="bv-eyebrow">01 / The creative archive</p><h2>Inside the Bijuverse<span>.</span></h2></div><Link className="bv-text-link" to="/work">Explore all work ↗</Link></div><ProjectCard project={projects[0]} featured /></section>;
+export function WorkPreview({ homeOnly = false }) {
+  return <section id="work-preview" className="bv-work-preview bv-page"><div className="bv-section-heading"><div><p className="bv-eyebrow">01 / The creative archive</p><h2>Inside the Bijuverse<span>.</span></h2></div>{!homeOnly && <Link className="bv-text-link" to="/work">Explore all work ↗</Link>}</div><ProjectCard project={projects[0]} featured homeOnly={homeOnly} /></section>;
 }
-function ProjectCard({ project, featured = false }) {
-  return <Link to={project.href} className={`bv-project-card ${featured ? 'bv-project-card--featured' : ''}`}><ProjectVisual project={project} /><div className="bv-project-copy"><div className="bv-card-meta"><span>{project.tag}</span><span>{project.sample ? 'SAMPLE CONTENT' : 'STORY COLLECTION'}</span></div><h2>{project.title}</h2><p>{project.description}</p><span className="bv-text-link">{project.category === 'Books' ? 'Discover the story' : 'Explore project'} <span aria-hidden="true">↗</span></span></div></Link>;
+function ProjectCard({ project, featured = false, homeOnly = false }) {
+  const Card = homeOnly ? 'article' : Link;
+  return <Card {...(homeOnly ? {} : { to: project.href })} className={`bv-project-card ${featured ? 'bv-project-card--featured' : ''}`}><ProjectVisual project={project} /><div className="bv-project-copy"><div className="bv-card-meta"><span>{project.tag}</span><span>{project.sample ? 'SAMPLE CONTENT' : 'STORY COLLECTION'}</span></div><h2>{project.title}</h2><p>{project.description}</p>{!homeOnly && <span className="bv-text-link">{project.category === 'Books' ? 'Discover the story' : 'Explore project'} <span aria-hidden="true">↗</span></span>}</div></Card>;
 }
 export default function Work() {
   const [params, setParams] = useSearchParams();

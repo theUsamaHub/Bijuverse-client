@@ -1,16 +1,17 @@
 import { Link, useSearchParams } from 'react-router';
 import { artworks, artworkMedia, getMedia } from '../data/portfolio';
 const published = artworks.filter(item => item.status === 'published').sort((a, b) => a.sort_order - b.sort_order);
-export function ArtworkCard({ item }) {
+export function ArtworkCard({ item, homeOnly = false }) {
+  const Card = homeOnly ? 'article' : Link;
   const image = getMedia(artworkMedia.filter(m => m.artwork_id === item.id).sort((a, b) => a.sort_order - b.sort_order)[0]?.media_id);
-  return <Link className="bv-gallery-card" to={`/artwork/${item.slug}`}>
-    <div className="bv-gallery-image">{image ? <img src={image.url} alt={image.default_alt} loading="lazy" /> : <span>Artwork coming soon</span>}<span className="bv-gallery-arrow" aria-hidden="true">↗</span></div>
-    <div className="bv-gallery-caption"><div><p className="bv-eyebrow">{item.category}{item.sample ? ' / SAMPLE' : ''}</p><h3>{item.title}</h3></div><span>VIEW ARTWORK</span></div>
+  return <Card className="bv-gallery-card" {...(homeOnly ? {} : { to: `/artwork/${item.slug}` })}>
+    <div className="bv-gallery-image">{image ? <img src={image.url} alt={image.default_alt} loading="lazy" /> : <span>Artwork coming soon</span>}{!homeOnly && <span className="bv-gallery-arrow" aria-hidden="true">↗</span>}</div>
+    <div className="bv-gallery-caption"><div><p className="bv-eyebrow">{item.category}{item.sample ? ' / SAMPLE' : ''}</p><h3>{item.title}</h3></div>{!homeOnly && <span>VIEW ARTWORK</span>}</div>
     <p>{item.description}</p>
-  </Link>;
+  </Card>;
 }
-export function ArtworkPreview() {
-  return <section className="bv-page bv-home-art" aria-labelledby="home-art-title"><div className="bv-section-heading"><div><p className="bv-eyebrow">02 / THE VISUAL WORLD</p><h2 id="home-art-title">A world beyond words<span>.</span></h2></div><Link className="bv-text-link" to="/artwork">Enter the gallery ↗</Link></div><div className="bv-gallery-grid">{published.slice(0, 2).map(item => <ArtworkCard key={item.id} item={item} />)}</div></section>;
+export function ArtworkPreview({ homeOnly = false }) {
+  return <section className="bv-page bv-home-art" aria-labelledby="home-art-title"><div className="bv-section-heading"><div><p className="bv-eyebrow">02 / THE VISUAL WORLD</p><h2 id="home-art-title">A world beyond words<span>.</span></h2></div>{!homeOnly && <Link className="bv-text-link" to="/artwork">Enter the gallery ↗</Link>}</div><div className="bv-gallery-grid">{published.slice(0, 2).map(item => <ArtworkCard key={item.id} item={item} homeOnly={homeOnly} />)}</div></section>;
 }
 export default function Artwork() {
   const [params, setParams] = useSearchParams();

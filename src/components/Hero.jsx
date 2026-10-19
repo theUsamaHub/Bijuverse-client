@@ -49,7 +49,8 @@ function ChakraParticles() {
 }
 
 /* Hero entrance waits for the shared page loader. */
-export default function Hero({ loading = false }) {
+export default function Hero({ loading = false, homeOnly = false }) {
+  const Cta = homeOnly ? 'a' : Link;
   const heroRef = useRef(null);
   const contentRef = useRef(null);
   const ringRef = useRef(null);
@@ -203,7 +204,7 @@ export default function Hero({ loading = false }) {
           Where creativity meets the chakra of design.
         </p>
 
-        <Link to="/work" className="bv-hero-cta" ref={ctaRef}>
+        <Cta {...(homeOnly ? { href: '#work-preview' } : { to: '/work' })} className="bv-hero-cta" ref={ctaRef}>
           <span>Explore My Work</span>
           <svg
             viewBox="0 0 24 24"
@@ -217,7 +218,7 @@ export default function Hero({ loading = false }) {
           >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
-        </Link>
+        </Cta>
       </div>
     </section>
   );

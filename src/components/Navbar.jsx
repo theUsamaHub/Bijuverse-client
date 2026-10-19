@@ -142,7 +142,8 @@ const ChidoriIcon = () => (
 );
 ─────────────────────────────────────────────────────────────────── */
 
-export default function Navbar() {
+export default function Navbar({ homeOnly = false }) {
+  const links = homeOnly ? LINKS.slice(0, 1) : LINKS;
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState(() => { try { return localStorage.getItem('bv-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } });
@@ -255,7 +256,7 @@ export default function Navbar() {
         </Link>
 
         <ul className="bv-links">
-          {LINKS.map((link) => (
+          {links.map((link) => (
             <li key={link.label}>
               <Link
                 to={link.href}
@@ -301,7 +302,7 @@ export default function Navbar() {
       </nav>
 
       <div id="mobile-menu" className="bv-mobile-panel" ref={mobilePanelRef} inert={!mobileOpen} onKeyDown={e => { if (e.key === "Escape") { setMobileOpen(false); burgerRef.current?.focus(); } }}>
-        {LINKS.map((link, i) => (
+        {links.map((link, i) => (
           <Link
             key={link.label}
             to={link.href}

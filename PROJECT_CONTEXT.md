@@ -1,7 +1,7 @@
 # The Bijuverse — Project Context
 
 ## Client & Deal
-- Client found via Discord client hunting.
+- Client found via Discord client hunting. 
 - Anime-inspired  portfolio/Business website for the client's creative work.
 
 

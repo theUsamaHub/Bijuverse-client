@@ -10,10 +10,10 @@ export function ArtworkCard({ item, homeOnly = false }) {
     <p>{item.description}</p>
   </Card>;
 }
-export function ArtworkPreview({ homeOnly = false }) {
-  return <section className="bv-page bv-home-art" aria-labelledby="home-art-title"><div className="bv-section-heading"><div><p className="bv-eyebrow">02 / THE VISUAL WORLD</p><h2 id="home-art-title">A world beyond words<span>.</span></h2></div>{!homeOnly && <Link className="bv-text-link" to="/artwork">Enter the gallery ↗</Link>}</div><div className="bv-gallery-grid">{published.slice(0, 2).map(item => <ArtworkCard key={item.id} item={item} homeOnly={homeOnly} />)}</div></section>;
+export function ArtworkPreview({ homeOnly = false, showCollectionLink = !homeOnly }) {
+  return <section className="bv-page bv-home-art" aria-labelledby="home-art-title"><div className="bv-section-heading"><div><p className="bv-eyebrow">02 / THE VISUAL WORLD</p><h2 id="home-art-title">A world beyond words<span>.</span></h2></div>{showCollectionLink && <Link className="bv-text-link" to="/artwork">Enter the gallery ↗</Link>}</div><div className="bv-gallery-grid">{published.slice(0, 2).map(item => <ArtworkCard key={item.id} item={item} homeOnly={homeOnly} />)}</div></section>;
 }
-export default function Artwork() {
+export default function Artwork({ previewOnly = false }) {
   const [params, setParams] = useSearchParams();
   const categories = ['All artwork', ...new Set(published.map(item => item.category))];
   const active = categories.includes(params.get('category')) ? params.get('category') : 'All artwork';
@@ -23,9 +23,9 @@ export default function Artwork() {
   return <div className="bv-page"><title>Artwork — The Bijuverse</title><header className="bv-work-header"><p className="bv-eyebrow">THE BIJUVERSE / GALLERY</p><h1>Some worlds<br /><span>need no words.</span></h1><p>Illustrations, landscapes, and small moments of imagination.<br />Step closer. There’s more in every frame.</p><span className="bv-header-seal" aria-hidden="true">画</span></header>
     <div className="bv-work-toolbar"><div className="bv-filters" aria-label="Artwork categories">{categories.map(category => <button key={category} aria-pressed={category === active} onClick={() => update('category', category === 'All artwork' ? '' : category)}>{category}</button>)}</div><label className="bv-search"><span className="bv-sr-only">Search artwork</span><input type="search" placeholder="Find an artwork…" value={query} onChange={e => update('q', e.target.value)} /></label></div>
     <p className="bv-results" role="status">{filtered.length} series / {active}</p>
-    <div className="bv-gallery-grid">{filtered.map(item => <ArtworkCard key={item.id} item={item} />)}</div>
+    <div className="bv-gallery-grid">{filtered.map(item => <ArtworkCard key={item.id} item={item} homeOnly={previewOnly} />)}</div>
     {!filtered.length && <div className="bv-empty"><h2>A blank canvas.</h2><p>No artwork matches this search. Try another title or category.</p><button className="bv-button" onClick={() => setParams({})}>Reset filters</button></div>}
     <p className="bv-content-note">The illustrations currently shown are original sample assets for the design. Client artwork will replace them.</p>
-    <div className="bv-end-note"><p>Have a thought about a piece?</p><Link className="bv-text-link" to="/contact">Let’s talk ↗</Link></div>
+    <div className="bv-end-note"><p>Have a thought about a piece?</p>{previewOnly ? <a className="bv-text-link" href="#connect">Find me on socials ↗</a> : <Link className="bv-text-link" to="/contact">Let’s talk ↗</Link>}</div>
   </div>;
 }

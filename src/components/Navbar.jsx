@@ -142,8 +142,8 @@ const ChidoriIcon = () => (
 );
 ─────────────────────────────────────────────────────────────────── */
 
-export default function Navbar({ homeOnly = false }) {
-  const links = homeOnly ? LINKS.slice(0, 1) : LINKS;
+export default function Navbar({ homeOnly = false, visiblePaths }) {
+  const links = visiblePaths ? LINKS.filter(link => visiblePaths.includes(link.href)) : homeOnly ? LINKS.slice(0, 1) : LINKS;
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState(() => { try { return localStorage.getItem('bv-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,8 +8,8 @@ import Hero from './components/Hero';
 import Footer from './components/Footer';
 import PageLoader from './components/PageLoader';
 import SwordCursor from './components/SwordCursor';
-import { WorkPreview } from './pages/Work';
-import { ArtworkPreview } from './pages/Artwork';
+import Work, { WorkPreview } from './pages/Work';
+import Artwork, { ArtworkPreview } from './pages/Artwork';
 import { AboutPreview, ContactInvitation } from './pages/About';
 import './styles/Content.css';
 import './styles/PublicPages.css';
@@ -21,9 +21,10 @@ import './styles/Work.css';
 // import FullSiteApp from './FullSiteApp';
 gsap.registerPlugin(ScrollTrigger);
 
-function HomePreview() {
+function PageFrame() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    window.scrollTo(0, 0);
     document.documentElement.setAttribute('data-page-loading', '');
     const timer = setTimeout(() => {
       document.documentElement.removeAttribute('data-page-loading');
@@ -50,16 +51,23 @@ function HomePreview() {
     <SwordCursor />
     <div inert={loading}>
       <a className="bv-skip-link" href="#main">Skip to content</a>
-      <Navbar homeOnly />
-      <main id="main" aria-busy={loading}><Hero loading={loading} homeOnly /><WorkPreview homeOnly /><ArtworkPreview homeOnly /><AboutPreview homeOnly /><div className="bv-page bv-home-contact"><ContactInvitation homeOnly /></div></main>
-      <Footer homeOnly />
+      <Navbar visiblePaths={['/', '/work', '/artwork']} />
+      <main id="main" aria-busy={loading}><Routes>
+        <Route path="/" element={<><Hero loading={loading} /><WorkPreview homeOnly showCollectionLink /><ArtworkPreview homeOnly showCollectionLink /><AboutPreview homeOnly /><div className="bv-page bv-home-contact"><ContactInvitation homeOnly /></div></>} />
+        <Route path="/work" element={<Work previewOnly />} />
+        <Route path="/artwork" element={<Artwork previewOnly />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes></main>
+      <Footer visiblePaths={['/', '/work', '/artwork']} />
     </div>
   </>;
 }
 
+function PreviewShell() {
+  const { pathname } = useLocation();
+  return <PageFrame key={pathname} />;
+}
+
 export default function App() {
-  return <BrowserRouter><Routes>
-    <Route path="/" element={<HomePreview />} />
-    <Route path="*" element={<Navigate to="/" replace />} />
-  </Routes></BrowserRouter>;
+  return <BrowserRouter><PreviewShell /></BrowserRouter>;
 }

@@ -1,15 +1,15 @@
-# Home-only client preview
+# Client preview
 
-The active entry is `src/App.jsx`. It shows the existing hero, loader, theme toggle, social links and footer. The hero button scrolls to the featured book section. The original work, artwork, about and contact-invitation sections remain on Home; their links to unavailable pages are hidden. The contact invitation points to the footer socials. Desktop and mobile menus only show Home.
+The active app now shows Home (`/`), My Work (`/work`) and Artwork (`/artwork`). Both desktop and mobile navigation and the footer expose these three pages.
 
-All other URLs redirect to `/`, including the work, artwork, about, contact, login, studio and error-preview URLs. Book and artwork cards remain visible as non-navigation previews.
+Home retains all its existing sections. Explore My Work and Explore all work open My Work; Enter the gallery opens Artwork. Cards remain non-navigation previews because individual book, chapter, artwork and project detail pages are still paused. The artwork contact invitation points to the footer socials.
 
-The previous app is preserved in `src/FullSiteApp.jsx`; its import is commented out in the active entry. All page and admin source files remain intact. They are not imported into this preview build. This is a presentation change, not server-side access control.
+Search and category filters operate on the local sample content. The loader replays when the pathname changes, but not when changing filters. The shared theme toggle and sword cursor remain available.
 
-To restore the full website, replace the contents of `src/App.jsx` with:
+All other URLs redirect to Home, including About, Contact, login, studio and error previews. Full-site source is preserved in `src/FullSiteApp.jsx`. To restore it, replace `src/App.jsx` with:
 
 ```jsx
 export { default } from './FullSiteApp';
 ```
 
-The sword cursor uses a small SVG and a short gold trail, with no additional packages. It only activates for a mouse on a fine-pointer device. Reduced-motion preferences disable the trail; text fields keep the normal cursor. Its tip follows the exact pointer position and its overlay never captures clicks.
+This is a frontend preview, not server-side access control. The earlier home-page design Word document describes the previous home-only review stage. Current client-facing descriptions for this release are in `docs/client/Work_and_Artwork_Preview.md`.
